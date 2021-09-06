@@ -1,23 +1,26 @@
 
-EMAIL_ADDRESS = {"shibin.abraham@gmail.com": "Shibin", "digitallearning@gmail.com": "Arvind",
+EMAIL_ADDRESS_TO_NAME = {"shibin.abraham@gmail.com": "Shibin Abraham", "digitallearning@gmail.com": "Andrew",
                  "shona@gmail.com": "Shibin","shining@gmail.com": "Shibin"}
 
 
-user_email = input("Email: ")
-while user_email != "":
-    if user_email in EMAIL_ADDRESS.keys():
-        # print(user_email, "name is", EMAIL_ADDRESS.get(user_email))
-        print("Is your name", EMAIL_ADDRESS.get(user_email),"? (Y/n)")
-        str = input()
-        if str == "n":
+def main():
+    email_address = input("Email: ")
+    while email_address != "":
+        name = name_from_email(email_address)
+        user_response = input("Is your name {}? (Y/n) ".format(name))
+        if user_response.upper() != "Y" and user_response != "":
             name = input("Name: ")
-        elif str == "Y":
-            pass
-        else:
-            pass
-    else:
-        print("User Email Not Found")
-    user_email = input("Email: ")
+        EMAIL_ADDRESS_TO_NAME[email_address] = name
+        email_address = input("Email: ")
 
-for emails, names in EMAIL_ADDRESS.items():
-    print(names,"(",emails,")")
+    for email_address, name in EMAIL_ADDRESS_TO_NAME.items():
+        print("{} ({})".format(name, email_address))
+
+
+def name_from_email(email):
+    first_part = email.split('@')[0]
+    parts = first_part.split('.')
+    user_name = " ".join(parts).title()
+    return user_name
+
+main()
