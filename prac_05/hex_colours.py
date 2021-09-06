@@ -12,4 +12,5 @@ while colour_name != "":
         print("Invalid Colour Name!")
     colour_name = input("Please enter your colour name: ")
 
-# Two ways- to look through all the keys - manual with case  insensitive matching
+# Two ways to change the dictionary items-
+# to look through all the keys - manual with case  insensitive matching
