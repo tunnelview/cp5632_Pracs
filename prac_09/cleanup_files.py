@@ -1,45 +1,42 @@
+"""
+Cleanup inconsistent song lyrics file names
+Note: A complete solution for this exercise is NOT provided.
+It's a very good thinking exercise and is less about the patterns we usually focus on
+and more of a "tricky" problem to solve.
+"""
 import os
-import shutil
 
 
 def main():
-    print("Starting directory is: {}".format(os.getcwd()))
-    os.chdir('Lyrics/Christmas')
-    print("Files in {}:\n{}\n".format(os.getcwd(), os.listdir('.')))
 
-    try:
-        os.mkdir('temp')
-    except FileExistsError:
-        pass
+    """Cleanup inconsistent song lyrics file names."""
 
-    for filename in os.listdir('.'):
-        if os.path.isdir(filename):
-            continue
+    os.chdir('Lyrics')
+    for directory_name, subdirectories, filenames in os.walk('.'):
 
-        new_name = get_fixed_filename(filename)
-        print("Renaming {} to {}".format(filename, new_name))
+        for filename in filenames:
+            new_name = get_fixed_filename(filename)
+            print("Renaming {} to {}".format(filename, new_name))
 
-        shutil.move(filename, 'temp/' + new_name)
+            full_name = os.path.join(directory_name, filename)
+            new_name = os.path.join(directory_name, new_name)
+            os.rename(full_name, new_name)
+            get_fixed_filename(new_name)
 
 
 def get_fixed_filename(filename):
-    new_name = filename.replace(" ", "_").replace(".TXT", ".txt")
+    filename = filename.replace(" ", "_").replace(".TXT", ".txt")
+    new_name = ""
+    for word, char in enumerate(filename):
+        try:
+            if filename[word + 1].isupper():
+                new_name = new_name + f"{char}_"
+            else:
+                new_name += char
+        except IndexError:
+            new_name += char
     return new_name
 
 
-def demo_walk():
-    os.chdir('Lyrics')
-    for directory_name, subdirectories, filenames in os.walk('.'):
-        print("Directory:", directory_name)
-        print("\tcontains subdirectories:", subdirectories)
-        print("\tand files:", filenames)
-        print("(Current working directory is: {})".format(os.getcwd()))
+main()
 
-        for filename in filenames:
-            full_name = os.path.join(directory_name, filename)
-            new_name = os.path.join(directory_name, get_fixed_filename(filename))
-            os.rename(full_name, new_name)
-
-
-#main()
-demo_walk()
