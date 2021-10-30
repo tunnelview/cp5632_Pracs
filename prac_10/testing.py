@@ -56,8 +56,7 @@ def run_tests():
         >>> phrase_to_sentence('This subject rocks')
         'This subject rocks.'
         """
-        # capitalise the first letter
-        sentence = phrase.capitalize()
+        sentence = phrase.capitalize() # capitalise the first letter
         # add the full stop, but only if we need to
         if sentence[-1] != '.':
             sentence += '.'
